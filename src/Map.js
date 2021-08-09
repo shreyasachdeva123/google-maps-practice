@@ -4,32 +4,21 @@ import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
 
 
-const Map = ({ coordinates, firstTime }) => {
+const Map = ({ coordinates, showMarker }) => {
     console.log(coordinates);
-    if (!firstTime) {
-        return (
-            <div className="googleMap" style={{ height: '100%', width: '100%' }}>
-                <GoogleMapReact
-                    bootstrapURLKeys={{ key: "AIzaSyAvwDWrA2Vzh2q5Tx0lVECVwha10CdC3lk" }}
-                    center={coordinates}
-                    defaultZoom={10}
-                ></GoogleMapReact>
-            </div>
-        )
-    }
-    else {
-        return (
-            <div className="googleMap" style={{ height: '100%', width: '100%' }}>
-                <GoogleMapReact
-                    bootstrapURLKeys={{ key: "AIzaSyAvwDWrA2Vzh2q5Tx0lVECVwha10CdC3lk" }}
-                    center={coordinates}
-                    defaultZoom={10}
-                >
-                    <Marker />
-                </GoogleMapReact>
-            </div>
-        )
-    }
+
+    return (
+        <div className="googleMap" style={{ height: '100%', width: '100%' }}>
+            <GoogleMapReact
+                bootstrapURLKeys={{ key: "AIzaSyAvwDWrA2Vzh2q5Tx0lVECVwha10CdC3lk" }}
+                center={coordinates}
+                defaultZoom={10}
+            >
+                <Marker showMarker={showMarker} />
+            </GoogleMapReact>
+        </div>
+    )
+
 }
 
 export default Map;

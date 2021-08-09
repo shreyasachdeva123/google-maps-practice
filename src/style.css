@@ -88,3 +88,27 @@ input:hover {
 .submitBtn:hover {
     font-size: 15px;
 }
+
+.modal {
+    position: fixed;
+    top: 10%;
+    left: 65%;
+    border: 2px solid black;
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px 15px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalBtn {
+    border-radius: 50px;
+    border: none;
+    color: white;
+    background-color: black;
+    height: 30px;
+    width: 30px;
+}
