@@ -26,19 +26,27 @@ const App = () => {
 
   function handleClear() {
     setFirstTime(false);
+    setIpAddress("");
   }
 
   return (
-    <div className="container" style={{ width: '100vw', height: '100vh', display: 'flex', displayDirection: 'row' }}>
-      <div style={{ width: '50%', height: '100%' }}>
-        <Map coordinates={coordinates} firstTime={firstTime} />
+    <div className="wrapper">
+      <div className="navbar">
+        <p>AccessView SmartConsole</p>
       </div>
-      <form style={{ width: '50%', height: '100%' }}>
-        <label htmlFor="inputField">Please enter your IP adress:</label>
-        <input type="text" id="inputField" onChange={(e) => setIpAddress(e.target.value)} />
-        <button type="button" onClick={getIpData}>Submit</button>
-        <button type="button" onClick={handleClear}>Clear</button>
-      </form>
+      <div className="container">
+        <div className="mapContainer">
+          <Map coordinates={coordinates} firstTime={firstTime} />
+        </div>
+        <form >
+          <label htmlFor="inputField">Please enter your IP address:</label>
+          <input placeholder="Type here" type="text" id="inputField" onChange={(e) => setIpAddress(e.target.value)} value={ipAddress} />
+          <div className="buttons">
+            <button className="submitBtn" type="button" onClick={getIpData}>Submit</button>
+            <button className="clearBtn" type="button" onClick={handleClear}>Clear</button>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }

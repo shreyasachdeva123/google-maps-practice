@@ -6,30 +6,85 @@ body {
 
 .root {
     width: 100vw;
+    height: 100vh;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+.navbar {
+    height: 8%;
+    width: 100vw;
+    background-color: blue;
+    color: white;
+}
+
+.container {
+    width: 100vw;
+    height: 92%;
+    display: flex;
+    flex-direction: row;
+    background-color: gainsboro;
+}
+
+.mapContainer {
+    width: 50%;
     height: 100%;
 }
 
-.marker {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 18px;
-    height: 18px;
-    background-color: #000;
-    border: 2px solid #fff;
-    border-radius: 100%;
-    user-select: none;
-    transform: translate(-50%, -50%);
+form {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
 }
 
+input {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 40%;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    text-align: center;
+}
 
-/* .container {
+input:hover {
+    font-size: 15px;
+}
+
+.buttons {
     display: flex;
     flex-direction: row;
-    width: 100vw;
-    height: 1000px;
 }
 
-form {
-    height: 50%;
-} */
+.buttons button {
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    background-color: white;
+    padding: 10px;
+    border-radius: 30px;
+    text-align: center;
+    width: 80px;
+}
+
+.clearBtn {
+    margin-left: 10px;
+}
+
+.clearBtn:hover {
+    font-size: 15px;
+}
+
+.submitBtn:hover {
+    font-size: 15px;
+}
