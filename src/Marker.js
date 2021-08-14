@@ -6,7 +6,7 @@ const Marker = ({ handleClickMarker, id, status_color }) => {
 
     return (
         <div className="marker">
-            <div className={status_color === "green" ? "greenMarker" : "redMarker"} onClick={handleClickMarker} id={id} />
+            <div className={status_color === "Green" ? "greenMarker" : "redMarker"} onClick={handleClickMarker} id={id} />
             <img src="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png" alt="pin" />
         </div>
     )

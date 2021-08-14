@@ -17,8 +17,9 @@ const App = () => {
 
   function handleStatusChange(e) {
     console.log(technicianUpdate);
+    console.log(e.target.id);
     fetch(`https://morning-dusk-47149.herokuapp.com/api/locations/${e.target.id}`, {
-      method: 'PUT',
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ technicianDetails: technicianUpdate, status: statusColor })
     })
@@ -26,14 +27,13 @@ const App = () => {
       .then((data) => {
         console.log(data.results);
         for (var i = 0; i < stationsData.length; i++) {
-          if (i === e.target.id) {
-            let array = stationsData.splice(i, 1, data.results);
-            console.log(array);
-            setStationsData([...array]);
+          if (stationsData[i].id === data.results.id) {
+            stationsData.splice(i, 1, data.results);
+            setStationsData([...stationsData]);
           }
         }
-      })
-      .catch((error) => console.log(error))
+      }
+      ).catch((error) => console.log(error))
   }
 
   console.log(stationsData);
