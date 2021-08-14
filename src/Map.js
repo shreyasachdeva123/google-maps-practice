@@ -4,7 +4,7 @@ import GoogleMapReact from "google-map-react";
 import Marker from "./Marker";
 
 
-const Map = ({ coordinates, showMarker }) => {
+const Map = ({ coordinates, stationsData, handleClickMarker }) => {
     console.log(coordinates);
 
     return (
@@ -14,7 +14,11 @@ const Map = ({ coordinates, showMarker }) => {
                 center={coordinates}
                 defaultZoom={10}
             >
-                <Marker showMarker={showMarker} />
+                {
+                    stationsData.map((station, index) =>
+                        <Marker lat={station.lat} lng={station.lng} key={index} handleClickMarker={handleClickMarker} id={station.name} status_color={station.status} />)
+                }
+
             </GoogleMapReact>
         </div>
     )

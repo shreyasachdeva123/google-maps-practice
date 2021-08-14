@@ -1,7 +1,8 @@
 import React from "react";
 import Map from "./Map";
 
-const AppContent = ({ coordinates, showMarker, setIpAddress, ipAddress, getIpData, handleClear }) => {
+const AppContent = ({ coordinates, stationsData, handleClickMarker, stationName, handleStatusChange, setTechnicianUpdate, technicianUpdate, statusColor, setStatusColor }) => {
+    console.log(stationsData);
     return (
         <div className="wrapper">
             <div className="navbar">
@@ -9,16 +10,34 @@ const AppContent = ({ coordinates, showMarker, setIpAddress, ipAddress, getIpDat
             </div>
             <div className="container">
                 <div className="mapContainer">
-                    <Map coordinates={coordinates} showMarker={showMarker} />
+                    <Map coordinates={coordinates} stationsData={stationsData} handleClickMarker={handleClickMarker} />
                 </div>
-                <form >
-                    <label htmlFor="inputField">Please enter your IP address:</label>
-                    <input placeholder="Type here" type="text" id="inputField" onChange={(e) => setIpAddress(e.target.value)} value={ipAddress} />
-                    <div className="buttons">
-                        <button className="submitBtn" type="button" onClick={getIpData}>Submit</button>
-                        <button className="clearBtn" type="button" onClick={handleClear}>Clear</button>
-                    </div>
-                </form>
+                {
+                    // eslint-disable-next-line array-callback-return
+                    stationsData.map((stationObj, index) => {
+                        if (stationName === stationObj.name) {
+                            return (
+                                <form key={index}>
+                                    <label htmlFor="inputField">Station</label>
+                                    <input id="stationName" value={stationObj.name} />
+                                    <label htmlFor="statusInfo">Status</label>
+                                    <select name="status" id="statusInfo" value={statusColor} onChange={(e) => setStatusColor(e.target.value)}>
+                                        <option value="Green">Green</option>
+                                        <option value="Red">Red</option>
+                                    </select>
+                                    <label htmlFor="technicianStatus">Technician Details</label>
+                                    <select id="technicianStatus" onChange={(e) => setTechnicianUpdate(e.target.value)} value={technicianUpdate}>
+                                        <option value="Issue Detected">Issue Detected</option>
+                                        <option value="Technician on The Way">Technician on The Way</option>
+                                        <option value="Work-in-Progress">Work-in-Progress</option>
+                                        <option value="Issue Resolved">Issue Resolved</option>
+                                    </select>
+                                    <button className="saveBtn" onClick={handleStatusChange} type="button" id={stationObj.id}>Save</button>
+                                </form>
+                            )
+                        }
+                    })
+                }
             </div>
         </div>
     )

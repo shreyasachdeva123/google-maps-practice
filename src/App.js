@@ -1,51 +1,69 @@
 import React from "react";
-import { StrictMode, useState } from "react";
+import { StrictMode, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import AppContent from "./AppContent";
-import Modal from "./Modal";
+
 
 const App = () => {
-  const [ipAddress, setIpAddress] = useState("");
-  const [coordinates, setCoordinates] = useState({ lat: 53.726669, lng: -127.647621 });
-  const [showMarker, setShowMarker] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [stationsData, setStationsData] = useState([]);
+  const [coordinates] = useState({ lat: 49.2831, lng: -123.1157 });
+  const [stationName, setStationName] = useState("");
+  const [technicianUpdate, setTechnicianUpdate] = useState("");
+  const [statusColor, setStatusColor] = useState("");
 
-  function getIpData(e) {
-    if (ipAddress === "") {
-      setShowModal(true);
-      setShowMarker(false);
-    } else {
-      fetch(`http://ip-api.com/json/${ipAddress}`
-      ).then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setCoordinates({ "lat": data.lat, "lng": data.lon });
-        })
-        .catch((error) => console.log("There is an error!", error))
-      setShowMarker(true);
-    }
+  useEffect(() => {
+    getStationInfo();
+  }, [])
+
+  function handleStatusChange(e) {
+    console.log(technicianUpdate);
+    fetch(`https://morning-dusk-47149.herokuapp.com/api/locations/${e.target.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ technicianDetails: technicianUpdate, status: statusColor })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.results);
+        for (var i = 0; i < stationsData.length; i++) {
+          if (i === e.target.id) {
+            let array = stationsData.splice(i, 1, data.results);
+            console.log(array);
+            setStationsData([...array]);
+          }
+        }
+      })
+      .catch((error) => console.log(error))
   }
 
-  function handleClear() {
-    setShowMarker(false);
-    setIpAddress("");
+  console.log(stationsData);
+
+  function getStationInfo() {
+    fetch("https://morning-dusk-47149.herokuapp.com/api/locations/", {
+      headers: { 'Access-Control-Allow-Origin': '*' }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.results);
+        setStationsData([...data.results, ...stationsData])
+      })
   }
 
-  if (showModal) {
-    return (
-      <>
-        <Modal setShowModal={setShowModal} />
-        <AppContent ipAddress={ipAddress} setIpAddress={setIpAddress} coordinates={coordinates} showMarker={showMarker} getIpData={getIpData} handleClear={handleClear} />
-      </>
-
-    )
-  } else {
-    return (
-      <AppContent ipAddress={ipAddress} setIpAddress={setIpAddress} coordinates={coordinates} showMarker={showMarker} getIpData={getIpData} handleClear={handleClear} />
-    )
+  function handleClickMarker(e) {
+    console.log(e.target);
+    setStationName(e.target.id);
   }
+
+  console.log(stationsData);
+
+  return (
+    <>
+      <AppContent coordinates={coordinates} stationsData={stationsData} handleClickMarker={handleClickMarker} stationName={stationName} handleStatusChange={handleStatusChange} technicianUpdate={technicianUpdate} setTechnicianUpdate={setTechnicianUpdate} statusColor={statusColor} setStatusColor={setStatusColor} />
+    </>
+  )
 }
 
 ReactDOM.render(<StrictMode><App /></StrictMode>, document.getElementById("root"));
 
 export default App;
+

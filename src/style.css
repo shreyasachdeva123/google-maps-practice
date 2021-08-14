@@ -115,6 +115,20 @@ input:hover {
     width: 30px;
 }
 
+.greenMarker {
+    width: 15px;
+    height: 15px;
+    background-color: green;
+    border-radius: 50px;
+}
+
+.redMarker {
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    border-radius: 50px;
+}
+
 @media screen and (max-width: 650px) {
     .wrapper {
         height: auto;
