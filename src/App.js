@@ -8,24 +8,36 @@ const App = () => {
   const [stationsData, setStationsData] = useState([]);
   const [coordinates] = useState({ lat: 49.2831, lng: -123.1157 });
   const [stationName, setStationName] = useState("");
-  const [technicianUpdate, setTechnicianUpdate] = useState("");
-  const [statusColor, setStatusColor] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    id: 0,
+    name: "",
+    status: "",
+    technicianDetails: ""
+  });
 
   useEffect(() => {
-    getStationInfo();
+    const interval = setInterval(() => {
+      getStationInfo();
+      console.log("mounted");
+    }, 2000);
+    // return () => { clearInterval(interval); console.log("unmounted") };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+
   function handleStatusChange(e) {
-    console.log(technicianUpdate);
-    console.log(e.target.id);
+    if (formData.status === "Select" || formData.technicianDetails === "" || formData.name === "") {
+      setShowModal(true);
+    }
+    console.log(e);
     fetch(`https://morning-dusk-47149.herokuapp.com/api/locations/${e.target.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ technicianDetails: technicianUpdate, status: statusColor })
+      body: JSON.stringify({ technicianDetails: formData.technicianDetails, status: formData.status })
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.results);
         for (var i = 0; i < stationsData.length; i++) {
           if (stationsData[i].id === data.results.id) {
             stationsData.splice(i, 1, data.results);
@@ -36,7 +48,6 @@ const App = () => {
       ).catch((error) => console.log(error))
   }
 
-  console.log(stationsData);
 
   function getStationInfo() {
     fetch("https://morning-dusk-47149.herokuapp.com/api/locations/", {
@@ -44,21 +55,38 @@ const App = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.results);
-        setStationsData([...data.results, ...stationsData])
+        setStationsData([...data.results])
       })
   }
 
   function handleClickMarker(e) {
-    console.log(e.target);
     setStationName(e.target.id);
+    let currentStation = stationsData.filter((station) => station.name === e.target.id);
+    setFormData({ ...currentStation[0] });
   }
 
-  console.log(stationsData);
+  function handleClose(e) {
+    for (var i = 0; i < stationsData.length; i++) {
+      if (stationsData[i].id === parseInt(e.target.id)) {
+        let prevFormData = stationsData[i];
+        setFormData({ ...prevFormData });
+      }
+    }
+  }
 
   return (
     <>
-      <AppContent coordinates={coordinates} stationsData={stationsData} handleClickMarker={handleClickMarker} stationName={stationName} handleStatusChange={handleStatusChange} technicianUpdate={technicianUpdate} setTechnicianUpdate={setTechnicianUpdate} statusColor={statusColor} setStatusColor={setStatusColor} />
+      <AppContent coordinates={coordinates}
+        stationsData={stationsData}
+        handleClickMarker={handleClickMarker}
+        stationName={stationName}
+        handleStatusChange={handleStatusChange}
+        formData={formData}
+        setFormData={setFormData}
+        handleClose={handleClose}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
     </>
   )
 }
