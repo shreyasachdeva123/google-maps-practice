@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Map from "./Map";
 import Form from "./Form";
+import { Fragment } from "react";
 
 const Modal = ({ setShowModal, coordinates, stationsData, formData, setFormData, stationName, handleStatusChange, handleClose, handleClickMarker }) => {
 
@@ -10,7 +11,7 @@ const Modal = ({ setShowModal, coordinates, stationsData, formData, setFormData,
     }
 
     return ReactDOM.createPortal(
-        <>
+        <Fragment>
             <div className="modal">
                 <p>Please make a valid selection.</p>
                 <button className="modalBtn" type="button" onClick={handleCloseModal}>X</button>
@@ -30,7 +31,7 @@ const Modal = ({ setShowModal, coordinates, stationsData, formData, setFormData,
                         handleClose={handleClose} />
                 </div>
             </div>
-        </>, document.getElementById("portal")
+        </Fragment>, document.getElementById("portal")
     )
 }
 

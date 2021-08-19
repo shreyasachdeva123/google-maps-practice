@@ -3,7 +3,7 @@ import Map from "./Map";
 import Form from "./Form";
 import Modal from "./Modal";
 
-const AppContent = ({ coordinates, stationsData, handleClickMarker, stationName, formData, handleStatusChange, setFormData, handleClose, setShowModal, showModal }) => {
+const AppContent = ({ coordinates, stationsData, handleClickMarker, stationName, formData, handleStatusChange, setFormData, handleClose, setShowModal, showModal, handleDashboardClick }) => {
     if (showModal) {
         return (
             <Modal setShowModal={setShowModal}
@@ -22,7 +22,7 @@ const AppContent = ({ coordinates, stationsData, handleClickMarker, stationName,
         return (
             <div className="wrapper">
                 <div className="navbar">
-                    <p>AccessView SmartConsole</p>
+                    <button type="button" onClick={handleDashboardClick}>Dashboard</button>
                 </div>
                 <div className="container">
                     <div className="mapContainer">

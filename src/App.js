@@ -2,6 +2,7 @@ import React from "react";
 import { StrictMode, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import AppContent from "./AppContent";
+import Dashboard from "./Dashboard";
 
 
 const App = () => {
@@ -15,13 +16,15 @@ const App = () => {
     status: "",
     technicianDetails: ""
   });
+  const [dashboardOpen, setDashboardOpen] = useState(false);
+  const [homeBtnClicked, setHomeBtnClicked] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
       getStationInfo();
       console.log("mounted");
     }, 2000);
-    // return () => { clearInterval(interval); console.log("unmounted") };
+    return () => { clearInterval(interval) };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -30,7 +33,6 @@ const App = () => {
     if (formData.status === "Select" || formData.technicianDetails === "" || formData.name === "") {
       setShowModal(true);
     }
-    console.log(e);
     fetch(`https://morning-dusk-47149.herokuapp.com/api/locations/${e.target.id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -48,6 +50,9 @@ const App = () => {
       ).catch((error) => console.log(error))
   }
 
+  function handleDashboardClick() {
+    setDashboardOpen(true);
+  }
 
   function getStationInfo() {
     fetch("https://morning-dusk-47149.herokuapp.com/api/locations/", {
@@ -57,6 +62,10 @@ const App = () => {
       .then((data) => {
         setStationsData([...data.results])
       })
+  }
+
+  function handleHomeBtn() {
+    setHomeBtnClicked(true)
   }
 
   function handleClickMarker(e) {
@@ -74,8 +83,14 @@ const App = () => {
     }
   }
 
-  return (
-    <>
+  if (dashboardOpen) {
+    return (
+      <Dashboard handleHomeBtn={handleHomeBtn} homeBtnClicked={homeBtnClicked} />
+    )
+  }
+  else {
+    return (
+
       <AppContent coordinates={coordinates}
         stationsData={stationsData}
         handleClickMarker={handleClickMarker}
@@ -86,9 +101,13 @@ const App = () => {
         handleClose={handleClose}
         showModal={showModal}
         setShowModal={setShowModal}
+        handleDashboardClick={handleDashboardClick}
       />
-    </>
-  )
+
+    )
+
+  }
+
 }
 
 ReactDOM.render(<StrictMode><App /></StrictMode>, document.getElementById("root"));
