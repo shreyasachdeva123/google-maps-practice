@@ -16,7 +16,7 @@ const Charts = () => {
                         <TableRow>
                             {tableHeadRow.map((heading, index) => {
                                 return (
-                                    <TableCell align="center" key={index}>{heading}</TableCell>
+                                    <TableCell align="center" key={index} style={{ color: "blue" }}>{heading}</TableCell>
                                 )
                             })}
                         </TableRow>

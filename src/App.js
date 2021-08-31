@@ -3,6 +3,7 @@ import { StrictMode, useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import AppContent from "./AppContent";
 import Dashboard from "./Dashboard";
+import Payments from "./Payments";
 
 
 const App = () => {
@@ -16,13 +17,38 @@ const App = () => {
     status: "",
     technicianDetails: ""
   });
-  const [dashboardOpen, setDashboardOpen] = useState(false);
+  // const [dashboardOpen, setDashboardOpen] = useState(false);
+  // const [paymentsOpen, setPaymentsOpen] = useState(false);
   const [homeBtnClicked, setHomeBtnClicked] = useState(false);
+  const [dashboardClicked, setDashboardClicked] = useState(false);
+  const [paymentsClicked, setPaymentsClicked] = useState(false);
+  const [array, setArray] = useState([false, false, false, false, false, false, false, false, false, false, false, false]);
+
+  function handleMenuItemClick(e) {
+    if (parseInt(e.target.id) === 1) {
+      setHomeBtnClicked(false);
+      setPaymentsClicked(false);
+      setDashboardClicked(true);
+    } else if (parseInt(e.target.id) === 2) {
+      setHomeBtnClicked(false);
+      setDashboardClicked(false)
+      setPaymentsClicked(true);
+    }
+    let activeId = parseInt(e.target.id) - 1;
+    console.log(activeId);
+    for (var i = 0; i < array.length; i++) {
+      if (i === activeId) {
+        array[activeId] = true;
+      } else {
+        array[i] = false;
+      }
+    }
+    setArray([...array]);
+  }
 
   useEffect(() => {
     const interval = setInterval(() => {
       getStationInfo();
-      console.log("mounted");
     }, 2000);
     return () => { clearInterval(interval) };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,9 +76,13 @@ const App = () => {
       ).catch((error) => console.log(error))
   }
 
-  function handleDashboardClick() {
-    setDashboardOpen(true);
-  }
+  // function handleDashboardClick() {
+  //   setDashboardOpen(true);
+  // }
+
+  // function handlePaymentsClick() {
+  //   setPaymentsOpen(true);
+  // }
 
   function getStationInfo() {
     fetch("https://morning-dusk-47149.herokuapp.com/api/locations/", {
@@ -83,9 +113,26 @@ const App = () => {
     }
   }
 
-  if (dashboardOpen) {
+  if (dashboardClicked) {
     return (
-      <Dashboard handleHomeBtn={handleHomeBtn} homeBtnClicked={homeBtnClicked} />
+      <Dashboard
+        handleHomeBtn={handleHomeBtn}
+        homeBtnClicked={homeBtnClicked}
+        array={array}
+        handleMenuItemClick={handleMenuItemClick}
+        paymentsClicked={paymentsClicked}
+        dashboardClicked={dashboardClicked}
+      />
+    )
+  } else if (paymentsClicked) {
+    return (
+      <Payments
+        handleHomeBtn={handleHomeBtn}
+        homeBtnClicked={homeBtnClicked}
+        array={array}
+        handleMenuItemClick={handleMenuItemClick}
+        dashboardClicked={dashboardClicked}
+      />
     )
   }
   else {
@@ -101,7 +148,11 @@ const App = () => {
         handleClose={handleClose}
         showModal={showModal}
         setShowModal={setShowModal}
-        handleDashboardClick={handleDashboardClick}
+        // handleDashboardClick={handleDashboardClick}
+        // handlePaymentsClick={handlePaymentsClick}
+        handleHomeBtn={handleHomeBtn}
+        array={array}
+        handleMenuItemClick={handleMenuItemClick}
       />
 
     )

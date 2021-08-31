@@ -13,7 +13,7 @@ const Stats = () => {
                 <p className="dataNum">6</p>
             </div>
             <div className="stats1">
-                <p>Total Active Station</p>
+                <p>Total Active Stations</p>
                 <TransferWithinAStationIcon style={{ fontSize: 50, color: "orange" }} />
                 <p className="dataNum">4</p>
             </div>

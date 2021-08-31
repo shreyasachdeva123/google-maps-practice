@@ -5,8 +5,6 @@ import { useState } from "react";
 const Barchart2 = () => {
     const headingRow = ["Stations", "Passengers with Accessibility"];
     const bodyRow = [["Granville", 350], ["Burrard", 600], ["Production Way", 100], ["Waterfront", 480], ["Stadium ChinaTown", 300], ["Commercial Drive", 200]];
-
-
     return (
         <div className="barchart2">
             <Table style={{ width: "100%" }}>
@@ -14,7 +12,7 @@ const Barchart2 = () => {
                     <TableRow>
                         {headingRow.map((heading, index) => {
                             return (
-                                <TableCell align="center" key={index}>{heading}</TableCell>
+                                <TableCell align="center" key={index} style={{ color: "blue" }}>{heading}</TableCell>
                             )
                         })}
                     </TableRow>

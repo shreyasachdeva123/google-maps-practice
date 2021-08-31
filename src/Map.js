@@ -5,8 +5,6 @@ import Marker from "./Marker";
 
 
 const Map = ({ coordinates, stationsData, handleClickMarker }) => {
-    console.log(coordinates);
-
     return (
         <div className="googleMap" style={{ height: '100%', width: '100%' }}>
             <GoogleMapReact
